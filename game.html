@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>HORMUZ SWEEPER</title>
+<title>Hormuz Sweeper</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
@@ -419,7 +419,7 @@ canvas {
     <button class="new-game-btn" id="mobile-btn" onclick="startNew()">[ NEW GAME ]</button>
     <div class="footer-text" id="mobile-footer">
       <span>MINE CLEARANCE UNIT ALPHA // STRAIT OF HORMUZ // MARCH 2026</span>
-      <span>$HORMUZ // COMING SOON TO SOLANA</span>
+      <span>$HRMZSWPR // COMING SOON TO SOLANA</span>
     </div>
   </div>
 
@@ -434,7 +434,7 @@ canvas {
     <button class="panel-new-btn" id="panel-share-btn" style="display:none" onclick="shareResult()">[ SHARE ON X ]</button>
     <div class="panel-divider"></div>
     <div class="panel-footer">
-      $HORMUZ<br>
+      $HRMZSWPR<br>
       COMING SOON<br>
       TO SOLANA
     </div>
@@ -1197,7 +1197,7 @@ function shareResult() {
 
   const lines = gstate === 'won' ? winLines : loseLines;
   const line = lines[Math.floor(Math.random() * lines.length)].replace('{t}', sec);
-  const text = line + "\n\n$HORMUZ \uD83D\uDCA3\nhttps://hormuz.lol";
+  const text = line + "\n\n$HRMZSWPR \uD83D\uDCA3\nhttps://hormuzsweeper.xyz";
 
   const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
   window.open(url, '_blank', 'width=600,height=400');
