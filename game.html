@@ -336,6 +336,11 @@ canvas {
   }
 }
 
+/* ── mobile padding ── */
+@media (max-width: 639px) {
+  html, body { padding: 8px 4px; }
+}
+
 /* ── small mobile ── */
 @media (max-width: 340px) {
   .classify { font-size: 7px; letter-spacing: 1px; }
@@ -1212,11 +1217,12 @@ function fitToScreen() {
     const panelWidth = Math.max(140, Math.min((vw - gameWidth) / 2 - 20, 220));
     document.documentElement.style.setProperty('--panel-width', Math.round(panelWidth) + 'px');
   } else {
-    // On mobile, fit width with room for UI below — min 300px, scroll over squish
-    const uiChrome = 160;
+    // On mobile, fit everything in viewport: canvas + HUD(44) + status(24) + buttons(~90) + footer(30) + padding
+    const uiChrome = 210;
     const fromHeight = (vh - uiChrome) / canvasRatio;
     const fromWidth = vw - 16;
-    gameWidth = Math.max(Math.min(vw - 16, 300), Math.min(fromHeight, fromWidth, 500));
+    gameWidth = Math.min(fromHeight, fromWidth, 500);
+    gameWidth = Math.max(gameWidth, 160); // absolute floor to stay usable
   }
 
   document.documentElement.style.setProperty('--game-width', Math.round(gameWidth) + 'px');
