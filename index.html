@@ -23,9 +23,7 @@
   --green: #38aa55;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--navy);
@@ -34,23 +32,18 @@ body {
   overflow-x: hidden;
 }
 
-/* ── UTILITY ── */
 .container {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
-section {
-  padding: 80px 0;
-}
+section { padding: 80px 0; }
 
 /* ── NAV ── */
 nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 100;
   background: rgba(4, 9, 17, 0.85);
   backdrop-filter: blur(12px);
@@ -105,10 +98,7 @@ nav .container {
     radial-gradient(ellipse 300px 300px at 30% 40%, rgba(200, 48, 48, 0.04), transparent);
   pointer-events: none;
 }
-.hero-inner {
-  position: relative;
-  z-index: 1;
-}
+.hero-inner { position: relative; z-index: 1; }
 .hero-classify {
   font-size: 10px;
   letter-spacing: 5px;
@@ -123,9 +113,7 @@ nav .container {
   line-height: 1;
   margin-bottom: 16px;
 }
-.hero-title span {
-  color: var(--red);
-}
+.hero-title span { color: var(--red); }
 .hero-sub {
   font-size: clamp(14px, 2.5vw, 20px);
   letter-spacing: 3px;
@@ -140,9 +128,7 @@ nav .container {
   margin-bottom: 56px;
   flex-wrap: wrap;
 }
-.hero-stat {
-  text-align: center;
-}
+.hero-stat { text-align: center; }
 .hero-stat-val {
   font-size: 36px;
   font-weight: bold;
@@ -208,10 +194,47 @@ nav .container {
   50% { opacity: 0.8; }
 }
 
-/* ── NARRATIVE ── */
-#narrative {
+/* ── LIVE FEED ── */
+#feed {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  background: var(--panel);
+  padding: 0;
+  overflow: hidden;
+}
+.feed-bar {
+  display: flex;
+  animation: scroll-feed 30s linear infinite;
+  white-space: nowrap;
+  padding: 14px 0;
+}
+.feed-bar:hover { animation-play-state: paused; }
+.feed-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+}
+.feed-item .label { color: var(--tan-dim); }
+.feed-item .val { font-weight: bold; }
+.feed-item .val.up { color: var(--red); }
+.feed-item .val.down { color: var(--green); }
+.feed-item .val.neutral { color: var(--blue); }
+.feed-sep {
+  color: var(--border);
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+@keyframes scroll-feed {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── NARRATIVE ── */
+#narrative {
   background: var(--panel);
 }
 .narrative-grid {
@@ -264,89 +287,178 @@ nav .container {
 .ticker-val.down { color: var(--green); }
 .ticker-val.neutral { color: var(--blue); }
 
-/* ── PLAY SECTION ── */
+/* ── PLAY BANNER ── */
 #play {
   text-align: center;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+#play::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      rgba(200, 48, 48, 0.02) 40px,
+      rgba(200, 48, 48, 0.02) 41px
+    );
+  pointer-events: none;
+}
+.play-inner { position: relative; z-index: 1; }
+.play-classify {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--red);
+  margin-bottom: 24px;
+  text-transform: uppercase;
 }
 #play h2 {
-  font-size: 28px;
-  letter-spacing: 5px;
+  font-size: clamp(28px, 5vw, 48px);
+  letter-spacing: 6px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+#play h2 span { color: var(--red); }
+#play .play-sub {
+  font-size: 14px;
+  color: #9a9480;
+  letter-spacing: 2px;
   margin-bottom: 12px;
+  line-height: 1.8;
 }
-#play .section-sub {
-  font-size: 12px;
+.play-details {
+  font-size: 11px;
   color: var(--tan-dim);
   letter-spacing: 2px;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
+  line-height: 1.8;
 }
-.game-frame-wrapper {
-  position: relative;
-  max-width: 520px;
-  margin: 0 auto;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  padding: 20px;
-}
-.game-frame-wrapper iframe {
-  width: 100%;
-  aspect-ratio: 10 / 24;
-  border: none;
-  display: block;
-}
-.game-link {
+.play-btn {
   display: inline-block;
-  margin-top: 20px;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--tan-dim);
+  padding: 24px 64px;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  letter-spacing: 6px;
   text-decoration: none;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 2px;
-  transition: color 0.2s;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid var(--red);
+  background: var(--red);
+  color: #fff;
+  position: relative;
 }
-.game-link:hover { color: var(--tan); }
+.play-btn:hover {
+  background: #e03838;
+  border-color: #e03838;
+  transform: scale(1.02);
+  box-shadow: 0 0 40px rgba(200, 48, 48, 0.2);
+}
+.play-btn::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(200, 48, 48, 0.3);
+  pointer-events: none;
+}
+.play-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+.play-stat {
+  text-align: center;
+}
+.play-stat-val {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--tan);
+}
+.play-stat-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--tan-dim);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
 
-/* ── HOW IT WORKS ── */
-#how {
-  border-top: 1px solid var(--border);
+/* ── LORE ── */
+#faq{
   background: var(--panel);
+  border-bottom: 1px solid var(--border);
 }
-#how h2 {
+#faqh2 {
   font-size: 24px;
   letter-spacing: 5px;
   text-align: center;
+  margin-bottom: 16px;
+}
+.lore-sub {
+  font-size: 11px;
+  color: var(--tan-dim);
+  letter-spacing: 2px;
+  text-align: center;
   margin-bottom: 56px;
 }
-.steps {
+.lore-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 24px;
 }
-.step {
+.lore-card {
   border: 1px solid var(--border);
-  padding: 32px 24px;
+  padding: 36px 28px;
   background: var(--navy);
-  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
-.step-num {
-  font-size: 32px;
+.lore-card::before {
+  content: attr(data-stamp);
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(200, 48, 48, 0.3);
+  text-transform: uppercase;
+}
+.lore-q {
+  font-size: 20px;
   font-weight: bold;
+  letter-spacing: 3px;
   color: var(--red);
   margin-bottom: 16px;
 }
-.step h3 {
-  font-size: 12px;
+.lore-card h3 {
+  font-size: 11px;
   letter-spacing: 3px;
   margin-bottom: 12px;
   text-transform: uppercase;
+  color: var(--tan);
 }
-.step p {
-  font-size: 11px;
-  line-height: 1.8;
+.lore-card p {
+  font-size: 12px;
+  line-height: 1.9;
   color: #9a9480;
 }
+.lore-card .lore-quote {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  font-style: italic;
+  color: var(--tan-dim);
+  line-height: 1.6;
+}
 
-/* ── TOKEN (placeholder) ── */
+/* ── TOKEN ── */
 #token {
   text-align: center;
   border-top: 1px solid var(--border);
@@ -412,11 +524,12 @@ footer .container {
 @media (max-width: 768px) {
   section { padding: 56px 0; }
   .narrative-grid { grid-template-columns: 1fr; gap: 32px; }
-  .steps { grid-template-columns: 1fr; }
+  .lore-grid { grid-template-columns: 1fr; }
   .hero-stats { gap: 32px; }
   .nav-links { gap: 16px; }
   .nav-links a { font-size: 9px; letter-spacing: 1px; }
-  .game-frame-wrapper { padding: 12px; }
+  .play-btn { padding: 20px 48px; font-size: 14px; }
+  .play-stats { gap: 32px; }
 }
 @media (max-width: 480px) {
   .container { padding: 0 16px; }
@@ -425,6 +538,7 @@ footer .container {
   .hero-stats { gap: 24px; }
   .hero-stat-val { font-size: 28px; }
   .nav-links { gap: 12px; }
+  .play-btn { padding: 18px 36px; font-size: 13px; letter-spacing: 4px; }
 }
 </style>
 </head>
@@ -437,7 +551,7 @@ footer .container {
     <ul class="nav-links">
       <li><a href="#narrative">Intel</a></li>
       <li><a href="#play">Play</a></li>
-      <li><a href="#how">How</a></li>
+      <li><a href="#faq">FAQ</a></li>
       <li><a href="#token">Token</a></li>
     </ul>
   </div>
@@ -452,25 +566,32 @@ footer .container {
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-val red">28</div>
-        <div class="hero-stat-label">Iranian Mines</div>
+        <div class="hero-stat-val red" id="stat-oil">---</div>
+        <div class="hero-stat-label">Brent Crude / bbl</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val blue">21nm</div>
-        <div class="hero-stat-label">Strait Width</div>
+        <div class="hero-stat-val blue" id="stat-sol">---</div>
+        <div class="hero-stat-label">Solana</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val green">$62</div>
-        <div class="hero-stat-label">Oil If You Win</div>
+        <div class="hero-stat-val green" id="stat-btc">---</div>
+        <div class="hero-stat-label">Bitcoin</div>
       </div>
     </div>
 
     <div class="hero-cta">
-      <a href="#play" class="btn btn-primary">Play Now</a>
+      <a href="game.html" class="btn btn-primary">Play Now</a>
       <a href="#token" class="btn btn-secondary">Token Info</a>
     </div>
   </div>
   <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ── LIVE FEED ── -->
+<section id="feed">
+  <div class="feed-bar" id="feed-bar">
+    <!-- Populated by JS -->
+  </div>
 </section>
 
 <!-- ── NARRATIVE ── -->
@@ -482,7 +603,7 @@ footer .container {
         <h2>Iran just mined the <span>most important</span> chokepoint on Earth</h2>
         <p>
           21 nautical miles wide. 20% of the world's oil passes through it daily.
-          One closure sends crude to $200/barrel and the global economy into freefall.
+          One closure sends crude past $120 and the global economy into freefall.
         </p>
         <p>
           28 naval mines now sit beneath the surface of the Strait of Hormuz.
@@ -496,15 +617,15 @@ footer .container {
       <div class="narrative-visual">
         <div class="ticker-line">
           <span class="ticker-label">BRENT CRUDE</span>
-          <span class="ticker-val up">$187.40 +42%</span>
+          <span class="ticker-val up" id="ticker-oil">LOADING...</span>
         </div>
         <div class="ticker-line">
-          <span class="ticker-label">SHIPPING INSURANCE</span>
-          <span class="ticker-val up">SUSPENDED</span>
+          <span class="ticker-label">GOLD</span>
+          <span class="ticker-val up" id="ticker-gold">LOADING...</span>
         </div>
         <div class="ticker-line">
           <span class="ticker-label">STRAIT STATUS</span>
-          <span class="ticker-val up">CLOSED</span>
+          <span class="ticker-val up">MINED</span>
         </div>
         <div class="ticker-line">
           <span class="ticker-label">MINES DETECTED</span>
@@ -515,49 +636,121 @@ footer .container {
           <span class="ticker-val down">000</span>
         </div>
         <div class="ticker-line">
-          <span class="ticker-label">TANKERS WAITING</span>
-          <span class="ticker-val neutral">147</span>
+          <span class="ticker-label">FEAR & GREED</span>
+          <span class="ticker-val up" id="ticker-fear">LOADING...</span>
         </div>
         <div class="ticker-line">
           <span class="ticker-label">$HORMUZ</span>
-          <span class="ticker-val up">LOADING...</span>
+          <span class="ticker-val up">TO THE MOON</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── PLAY ── -->
+<!-- ── PLAY BANNER ── -->
 <section id="play">
   <div class="container">
-    <h2>Clear the Strait</h2>
-    <p class="section-sub">Left click to reveal. Right click to flag. Don't hit a mine.</p>
-    <div class="game-frame-wrapper">
-      <iframe src="game.html" title="Hormuz Sweeper" loading="lazy"></iframe>
+    <div class="play-inner">
+      <div class="play-classify">// mine clearance unit alpha //</div>
+      <h2>Clear the <span>Strait</span></h2>
+      <p class="play-sub">
+        28 Iranian mines. 141 water cells. One wrong click and oil spikes to $200.
+      </p>
+      <p class="play-details">
+        The US decommissioned all its Middle East minesweepers in September 2025.<br>
+        Iran has an estimated 5,000 more. You have a mouse. Good luck.
+      </p>
+      <a href="game.html" class="play-btn">Enter the Strait</a>
+      <div class="play-stats">
+        <div class="play-stat">
+          <div class="play-stat-val">28</div>
+          <div class="play-stat-label">Mines</div>
+        </div>
+        <div class="play-stat">
+          <div class="play-stat-val">~20%</div>
+          <div class="play-stat-label">Density</div>
+        </div>
+        <div class="play-stat">
+          <div class="play-stat-val">10x22</div>
+          <div class="play-stat-label">Grid</div>
+        </div>
+        <div class="play-stat">
+          <div class="play-stat-val">0%</div>
+          <div class="play-stat-label">Survival Rate</div>
+        </div>
+      </div>
     </div>
-    <a href="game.html" target="_blank" class="game-link">Open fullscreen &rarr;</a>
   </div>
 </section>
 
-<!-- ── HOW IT WORKS ── -->
-<section id="how">
+<!-- ── LORE ── -->
+<section id="faq">
   <div class="container">
-    <h2>How It Works</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Play the Game</h3>
-        <p>Navigate the Strait of Hormuz. Reveal water cells, flag mines. Clear all 28 without detonating one.</p>
+    <h2>FAQ</h2>
+    <div class="lore-sub">// DECLASSIFIED //</div>
+    <div class="lore-grid">
+      <div class="lore-card" data-stamp="CLASSIFIED">
+        <div class="lore-q">"UTILITY?"</div>
+        <h3>Zero. Absolutely None.</h3>
+        <p>
+          We made a minesweeper game about a real war.
+          That's the utility. We love you.
+          If you need more than that, may we suggest index funds.
+        </p>
+        <div class="lore-quote">
+          "Utility: minesweeper. Narrative: geopolitical chaos. Vibe: immaculate."
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Hold $HORMUZ</h3>
-        <p>A memecoin born from the most dangerous chokepoint on the planet. Details dropping soon.</p>
+      <div class="lore-card" data-stamp="REDACTED">
+        <div class="lore-q">"MARKETING?"</div>
+        <h3>The President Handles That</h3>
+        <p>
+          Donald Trump tweets about the Strait of Hormuz every day. CENTCOM issues press releases about sinking Iranian minelayers. CNN calls it a "death valley." Best marketing team money can't buy.
+        </p>
+        <div class="lore-quote">
+          "Military consequences at a level never seen before." — Trump, Truth Social
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Watch the Strait</h3>
-        <p>As geopolitics heats up, so does $HORMUZ. The narrative writes itself. You just have to be early.</p>
+      <div class="lore-card" data-stamp="TOP SECRET">
+        <div class="lore-q">"ROADMAP?"</div>
+        <h3>Iran Has 5,000 More Mines</h3>
+        <p>
+          The roadmap writes itself. Literally. Every time Iran does something unhinged, that's a content update. We don't need a dev team — we have the Islamic Revolutionary Guard Corps.
+        </p>
+        <div class="lore-quote">
+          "We know that they have not mined the straits." — Treasury Sec. Bessent (wrong)
+        </div>
+      </div>
+      <div class="lore-card" data-stamp="EYES ONLY">
+        <div class="lore-q">"TOKENOMICS?"</div>
+        <h3>28 Mines. That's It.</h3>
+        <p>
+          If you hit one, oil goes to $200/bbl. If you clear them all, you get $62 oil and global economic stability. Those are the tokenomics. You're welcome.
+        </p>
+        <div class="lore-quote">
+          "The greatest minesweeping ability." — Trump (US had decommissioned all Middle East minesweepers 6 months prior)
+        </div>
+      </div>
+      <div class="lore-card" data-stamp="RESTRICTED">
+        <div class="lore-q">"RUG?"</div>
+        <h3>Sir, This Is a Strait</h3>
+        <p>
+          20% of the world's oil passes through here daily. 150+ tankers are anchored outside waiting. You can't rug a chokepoint. Geography is the ultimate smart contract.
+        </p>
+        <div class="lore-quote">
+          "The Strait has been described to CNN as a 'death valley.'"
+        </div>
+      </div>
+      <div class="lore-card" data-stamp="NOFORN">
+        <div class="lore-q">"WEN MOON?"</div>
+        <h3>When Iran Runs Out of Mines</h3>
+        <p>
+          Current stockpile estimate: 5,000 naval mines. Current usage: 28. At this rate we've got content for centuries. The narrative literally cannot stop.
+        </p>
+        <div class="lore-quote">
+          "We've made it a priority to target Iran's mine-laying enterprise." — Gen. Dan Caine
+        </div>
       </div>
     </div>
   </div>
@@ -577,12 +770,136 @@ footer .container {
   <div class="container">
     <div class="footer-logo"><span>$</span>HORMUZ</div>
     <ul class="footer-links">
-      <li><a href="#play">Play</a></li>
+      <li><a href="game.html">Play</a></li>
       <li><a href="#token">Token</a></li>
     </ul>
     <div class="footer-copy">// MINE CLEARANCE UNIT ALPHA // STRAIT OF HORMUZ // 2026 //</div>
   </div>
 </footer>
+
+<script>
+// ── LIVE DATA ──
+// CoinGecko free API (no auth, CORS-friendly)
+// Alternative.me Fear & Greed (no auth)
+
+const fmt = (n, d = 0) => n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtChange = (n) => (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+
+async function fetchCryptoData() {
+  try {
+    const res = await fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,solana&vs_currencies=usd&include_24hr_change=true'
+    );
+    const data = await res.json();
+
+    // BTC
+    const btcPrice = data.bitcoin.usd;
+    const btcChange = data.bitcoin.usd_24h_change;
+    const btcEl = document.getElementById('stat-btc');
+    btcEl.textContent = '$' + fmt(btcPrice);
+    btcEl.className = 'hero-stat-val ' + (btcChange >= 0 ? 'green' : 'red');
+
+    // SOL
+    const solPrice = data.solana.usd;
+    const solChange = data.solana.usd_24h_change;
+    const solEl = document.getElementById('stat-sol');
+    solEl.textContent = '$' + fmt(solPrice, 2);
+    solEl.className = 'hero-stat-val ' + (solChange >= 0 ? 'blue' : 'red');
+
+    return { btcPrice, btcChange, solPrice, solChange };
+  } catch (e) {
+    document.getElementById('stat-btc').textContent = 'CLASSIFIED';
+    document.getElementById('stat-sol').textContent = 'CLASSIFIED';
+    return {};
+  }
+}
+
+async function fetchFearGreed() {
+  try {
+    const res = await fetch('https://api.alternative.me/fnd/v1/fear-greed-index/');
+    const data = await res.json();
+    const value = data.data[0].value;
+    const label = data.data[0].value_classification;
+    document.getElementById('ticker-fear').textContent = value + ' — ' + label.toUpperCase();
+    document.getElementById('ticker-fear').className = 'ticker-val ' + (value < 40 ? 'up' : value > 60 ? 'down' : 'neutral');
+    return { value, label };
+  } catch (e) {
+    document.getElementById('ticker-fear').textContent = 'EXTREME FEAR (PROBABLY)';
+    return null;
+  }
+}
+
+async function fetchOilGold() {
+  // Gold via CoinGecko tether-gold (XAUT) as proxy
+  try {
+    const res = await fetch(
+      'https://api.coingecko.com/api/v3/simple/price?ids=tether-gold&vs_currencies=usd&include_24hr_change=true'
+    );
+    const data = await res.json();
+    const goldPrice = data['tether-gold'].usd;
+    const goldChange = data['tether-gold'].usd_24h_change;
+    document.getElementById('ticker-gold').textContent = '$' + fmt(goldPrice) + '/oz ' + fmtChange(goldChange);
+    document.getElementById('ticker-gold').className = 'ticker-val ' + (goldChange >= 0 ? 'up' : 'down');
+  } catch (e) {
+    document.getElementById('ticker-gold').textContent = 'SAFE HAVEN ACTIVATED';
+  }
+
+  // Oil via our cached serverless endpoint
+  try {
+    const res = await fetch('/api/oil');
+    const data = await res.json();
+    const oilPrice = data.price;
+    window._oilPrice = oilPrice;
+    document.getElementById('stat-oil').textContent = '$' + fmt(oilPrice, 2);
+    document.getElementById('ticker-oil').textContent = data.formatted + ' /bbl';
+    document.getElementById('ticker-oil').className = 'ticker-val up';
+  } catch (e) {
+    window._oilPrice = null;
+    document.getElementById('stat-oil').textContent = '$120+';
+    document.getElementById('ticker-oil').textContent = '$120+ /bbl ↑ CRISIS';
+  }
+}
+
+function buildFeed(crypto) {
+  const oilStr = window._oilPrice ? '$' + fmt(window._oilPrice, 2) + ' /BBL' : '$120+ /BBL';
+  const items = [
+    { label: 'STRAIT STATUS', val: 'MINED', cls: 'up' },
+    { label: 'BRENT CRUDE', val: oilStr, cls: 'up' },
+    { label: 'IRANIAN MINES', val: '28 CONFIRMED', cls: 'up' },
+    { label: 'US MINESWEEPERS', val: 'DECOMMISSIONED', cls: 'up' },
+    { label: 'MINELAYERS SUNK', val: '16', cls: 'neutral' },
+    { label: 'TANKERS WAITING', val: '150+', cls: 'neutral' },
+    { label: 'IRAN STOCKPILE', val: '~5,000 MINES', cls: 'up' },
+    { label: '$HORMUZ', val: 'LOADING...', cls: 'up' },
+  ];
+
+  if (crypto) {
+    items.splice(2, 0,
+      { label: 'BTC', val: '$' + fmt(crypto.btcPrice) + ' ' + fmtChange(crypto.btcChange), cls: crypto.btcChange >= 0 ? 'down' : 'up' },
+      { label: 'SOL', val: '$' + fmt(crypto.solPrice, 2) + ' ' + fmtChange(crypto.solChange), cls: crypto.solChange >= 0 ? 'down' : 'up' },
+    );
+  }
+
+  const bar = document.getElementById('feed-bar');
+  // Double the items for seamless scroll loop
+  const html = [...items, ...items].map(i =>
+    `<span class="feed-item"><span class="label">${i.label}</span><span class="val ${i.cls}">${i.val}</span></span><span class="feed-sep">|</span>`
+  ).join('');
+  bar.innerHTML = html;
+}
+
+// ── INIT ──
+(async function init() {
+  const [crypto] = await Promise.all([fetchCryptoData(), fetchOilGold(), fetchFearGreed()]);
+  buildFeed(crypto);
+
+  // Refresh every 60s
+  setInterval(async () => {
+    const [c] = await Promise.all([fetchCryptoData(), fetchOilGold(), fetchFearGreed()]);
+    buildFeed(c);
+  }, 60000);
+})();
+</script>
 
 </body>
 </html>

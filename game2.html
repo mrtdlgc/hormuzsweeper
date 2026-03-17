@@ -17,20 +17,18 @@ html, body {
   color: #c8b888;
 }
 
-/* ── WRAPPER: flex row on desktop, column on mobile ── */
+/* ── WRAPPER: Centers if fits, scrolls if overflows ── */
 #game-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0;
-  margin: auto;
+  margin: auto; 
   width: 100%;
 }
 
 /* ── SIDE PANELS (desktop only) ── */
-.side-panel {
-  display: none;
-}
+.side-panel { display: none; }
 
 /* ── MOBILE CLASSIFY ── */
 .classify {
@@ -93,7 +91,7 @@ canvas {
   border: 1px solid #1e2c40;
   border-top: none;
   padding: 5px 10px;
-  font-size: 8px;
+  font-size: 9px;
   letter-spacing: 1px;
   color: #7a7868;
   min-height: 24px;
@@ -151,7 +149,7 @@ canvas {
   background: #05090f;
   border: 1px solid #1e2c40;
   border-top: none;
-  padding: 4px 10px;
+  padding: 6px 10px;
   font-size: 11px;
   font-weight: bold;
   letter-spacing: 2px;
@@ -218,11 +216,11 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   background: #07101a;
   border: 1px solid #1e2c40;
   border-top: none;
-  padding: 5px 10px;
+  padding: 8px 10px;
   font-size: 7px;
   letter-spacing: 1px;
   color: #5a5848;
@@ -239,7 +237,6 @@ canvas {
     justify-content: center;
     gap: 0;
   }
-  /* hide mobile-only elements */
   #hud, #mobile-status, #mobile-btn, #mobile-footer, #mobile-classify, #share-btn { display: none !important; }
 
   .side-panel {
@@ -262,48 +259,17 @@ canvas {
     align-items: flex-start;
     text-align: left;
   }
-  .panel-title {
-    font-size: 14px;
-    letter-spacing: 5px;
-    color: #8a8068;
-    text-transform: uppercase;
-    line-height: 1.6;
-  }
-  .panel-classify {
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: #6a6248;
-    text-transform: uppercase;
-    line-height: 1.8;
-  }
-  .panel-divider {
-    width: 40px;
-    height: 1px;
-    background: #1e2c40;
-  }
+  .panel-title { font-size: 14px; letter-spacing: 5px; color: #8a8068; text-transform: uppercase; line-height: 1.6; }
+  .panel-classify { font-size: 9px; letter-spacing: 2px; color: #6a6248; text-transform: uppercase; line-height: 1.8; }
+  .panel-divider { width: 40px; height: 1px; background: #1e2c40; }
   #panel-left .panel-divider { margin-left: auto; }
   #panel-right .panel-divider { margin-right: auto; }
-  .panel-label {
-    font-size: 10px;
-    color: #7a7060;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-  .panel-val {
-    font-size: 42px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    font-variant-numeric: tabular-nums;
-  }
+  .panel-label { font-size: 10px; color: #7a7060; letter-spacing: 3px; text-transform: uppercase; }
+  .panel-val { font-size: 42px; font-weight: bold; letter-spacing: 2px; font-variant-numeric: tabular-nums; }
   .panel-val.mine-display { color: #c83030; }
   .panel-val.time-display { color: #3080c0; }
-  .panel-status {
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    color: #7a7868;
-    line-height: 1.8;
-    transition: color 0.4s;
-  }
+  .panel-status { font-size: 11px; letter-spacing: 1.5px; color: #7a7868; line-height: 1.8; transition: color 0.4s; }
+  
   .panel-new-btn {
     display: inline-block;
     padding: 10px 24px;
@@ -316,24 +282,10 @@ canvas {
     cursor: pointer;
     transition: all 0.15s;
   }
-  .panel-new-btn:hover {
-    border-color: #384c60;
-    color: #90b8d0;
-    background: #0c1820;
-  }
-  .panel-footer {
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    color: #5a5848;
-    line-height: 1.8;
-  }
+  .panel-new-btn:hover { border-color: #384c60; color: #90b8d0; background: #0c1820; }
+  .panel-footer { font-size: 8px; letter-spacing: 1.5px; color: #5a5848; line-height: 1.8; }
 
-  /* canvas column — no extra chrome */
-  #center-col {
-    max-width: none;
-    width: var(--game-width, 320px);
-    flex-shrink: 0;
-  }
+  #center-col { max-width: none; width: var(--game-width, 320px); flex-shrink: 0; }
 }
 
 /* ── small mobile ── */
@@ -349,7 +301,7 @@ canvas {
 
 <div id="game-wrapper">
 
-  <!-- ── LEFT PANEL (desktop) ── -->
+  <!-- LEFT PANEL -->
   <div id="panel-left" class="side-panel">
     <div class="panel-title">HORMUZ<br>SWEEPER</div>
     <div class="panel-divider"></div>
@@ -373,7 +325,7 @@ canvas {
     </div>
   </div>
 
-  <!-- ── CENTER COLUMN ── -->
+  <!-- CENTER COLUMN -->
   <div id="center-col">
     <div class="classify" id="mobile-classify">// CLASSIFIED // MINE CLEARANCE UNIT ALPHA // STRAIT OF HORMUZ // MARCH 2026 //</div>
 
@@ -412,7 +364,7 @@ canvas {
     </div>
   </div>
 
-  <!-- ── RIGHT PANEL (desktop) ── -->
+  <!-- RIGHT PANEL -->
   <div id="panel-right" class="side-panel">
     <div>
       <div class="panel-label">TIME</div>
@@ -440,32 +392,11 @@ const NR = 22;
 const NC = 10;
 const NM = 28;
 
-const LAND = [
-  [1,1,1,1,1,1,1,1,1,1], // row 0   Iran interior
-  [1,1,1,1,1,1,1,1,1,1], // row 1   Iran interior
-  [1,1,1,1,1,1,1,1,1,1], // row 2   Iran coast
-  [1,1,0,0,0,0,0,1,1,1], // row 3   Iran coast opens
-  [1,0,0,0,0,0,0,0,1,1], // row 4   Wider opening
-  [0,0,0,0,0,0,0,0,0,1], // row 5   Strait widens
-  [0,0,0,0,0,0,0,0,0,0], // row 6   Open water
-  [0,0,0,0,0,0,0,0,0,0], // row 7   Open water — shipping lane
-  [0,0,0,0,0,0,0,0,0,0], // row 8   Open water
-  [0,0,0,0,0,0,0,0,0,0], // row 9   Open water
-  [0,0,0,0,0,0,0,0,0,0], // row 10  Open water
-  [0,0,0,0,0,0,0,1,0,0], // row 11  Qeshm channel
-  [0,0,0,0,0,0,1,1,1,0], // row 12  Qeshm Island
-  [0,0,0,0,0,0,1,1,0,0], // row 13  Qeshm south
-  [0,0,0,0,0,0,0,0,0,0], // row 14  Open water
-  [0,0,0,0,0,0,0,0,0,0], // row 15  Open water
-  [0,0,0,0,1,1,0,0,0,0], // row 16  Musandam tip
-  [0,0,1,1,1,1,1,0,0,0], // row 17  Musandam body
-  [1,1,1,1,1,1,1,0,0,0], // row 18  Oman / UAE coast
-  [1,1,1,1,1,1,1,1,0,0], // row 19  Oman coast
-  [1,1,1,1,1,1,1,1,1,1], // row 20  Oman interior
-  [1,1,1,1,1,1,1,1,1,1], // row 21  Oman interior
+const LAND = [[1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1],[1,1,0,0,0,0,0,1,1,1],[1,0,0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,1,1,1,0],[0,0,0,0,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,1,0,0,0,0],[0,0,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,0,0,0], [1,1,1,1,1,1,1,1,0,0],[1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1]
 ];
 
-const NCOLORS = ['','#5aabff','#5dd888','#ff8855','#cc88ee','#ff99bb','#55e0e0','#e0e0e0','#aaaaaa'];
+const NCOLORS =['','#5aabff','#5dd888','#ff8855','#cc88ee','#ff99bb','#55e0e0','#e0e0e0','#aaaaaa'];
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    CANVAS SETUP
@@ -519,8 +450,8 @@ function drawMapOnce() {
     for (let c = 0; c < NC; c++) {
       if (!LAND[r][c]) continue;
       const x = c*SZ, y = r*SZ;
-      const neighbors = [[r-1,c,'T'], [r+1,c,'B'], [r,c-1,'L'], [r,c+1,'R']];
-      for (const [nr, nc2, edge] of neighbors) {
+      const neighbors = [[r-1,c,'T'], [r+1,c,'B'],[r,c-1,'L'], [r,c+1,'R']];
+      for (const[nr, nc2, edge] of neighbors) {
         if (nr < 0 || nr >= NR || nc2 < 0 || nc2 >= NC) continue;
         if (LAND[nr][nc2]) continue;
         mctx.beginPath();
@@ -557,9 +488,7 @@ function drawMapOnce() {
   mctx.strokeStyle = 'rgba(30, 70, 130, 0.3)';
   mctx.lineWidth = 0.8;
   mctx.beginPath();
-  mctx.moveTo(20, 240);
-  mctx.bezierCurveTo(100, 230, 200, 245, 300, 238);
-  mctx.stroke();
+  mctx.moveTo(20, 240); mctx.bezierCurveTo(100, 230, 200, 245, 300, 238); mctx.stroke();
   mctx.restore();
 
   mctx.save();
@@ -567,45 +496,36 @@ function drawMapOnce() {
   mctx.strokeStyle = 'rgba(50, 110, 200, 0.28)';
   mctx.lineWidth = 1;
   mctx.beginPath();
-  mctx.moveTo(18, 7*SZ + SZ/2); mctx.lineTo(302, 7*SZ + SZ/2);
-  mctx.stroke();
+  mctx.moveTo(18, 7*SZ + SZ/2); mctx.lineTo(302, 7*SZ + SZ/2); mctx.stroke();
   mctx.restore();
 
   mctx.textAlign = 'center';
   mctx.textBaseline = 'middle';
-
   mctx.font = 'bold 10px Courier New';
   mctx.fillStyle = 'rgba(170, 132, 55, 0.85)';
   mctx.fillText('I  R  A  N', W/2, 20);
   mctx.font = '7px Courier New';
   mctx.fillStyle = 'rgba(140, 108, 45, 0.6)';
   mctx.fillText('BANDAR ABBAS  \u25BE', W/2, 32);
-
   mctx.font = 'bold 8px Courier New';
   mctx.fillStyle = 'rgba(155, 120, 50, 0.78)';
   mctx.fillText('O M A N', W/2, H - 22);
-
   mctx.font = 'bold 7px Courier New';
   mctx.fillStyle = 'rgba(148, 114, 48, 0.75)';
   mctx.fillText('MUSANDAM', 5*SZ, 17*SZ + SZ/2);
-
   mctx.font = '8px Courier New';
   mctx.fillStyle = 'rgba(22, 68, 138, 0.48)';
   mctx.fillText('PERSIAN', 2*SZ, 6*SZ + 6);
   mctx.fillText('GULF', 2*SZ, 6*SZ + 18);
-
   mctx.fillStyle = 'rgba(22, 68, 138, 0.42)';
   mctx.fillText('GULF OF', 8*SZ, 14*SZ + 8);
   mctx.fillText('OMAN', 8*SZ, 14*SZ + 20);
-
   mctx.font = '6px Courier New';
   mctx.fillStyle = 'rgba(148, 112, 48, 0.78)';
   mctx.fillText('QESHM', 7*SZ + SZ/2, 12*SZ + SZ/2);
-
   mctx.font = '7px Courier New';
   mctx.fillStyle = 'rgba(32, 85, 160, 0.22)';
   mctx.fillText('\u2014 SHIPPING LANE \u2014', W/2, 7*SZ + SZ/2 - 8);
-
   mctx.font = 'bold 7px Courier New';
   mctx.fillStyle = 'rgba(30, 90, 175, 0.3)';
   mctx.fillText('STRAIT  OF  HORMUZ', W/2, 9*SZ + SZ/2);
@@ -619,14 +539,13 @@ let board, gstate, nflags, sec, tick, blastRC;
 function mkBoard() {
   return Array.from({length: NR}, (_, r) =>
     Array.from({length: NC}, (_, c) => ({
-      mine: false, rev: false, flag: false, adj: 0,
-      land: !!LAND[r][c]
+      mine: false, rev: false, flag: false, adj: 0, land: !!LAND[r][c]
     }))
   );
 }
 
 function placeMines(sr, sc) {
-  const pool = [];
+  const pool =[];
   for (let r = 0; r < NR; r++)
     for (let c = 0; c < NC; c++)
       if (!LAND[r][c]) pool.push([r, c]);
@@ -634,8 +553,7 @@ function placeMines(sr, sc) {
   let done = 0;
   while (done < NM) {
     const [r, c] = pool[Math.floor(Math.random() * pool.length)];
-    if (board[r][c].mine) continue;
-    if (Math.abs(r - sr) <= 1 && Math.abs(c - sc) <= 1) continue;
+    if (board[r][c].mine || (Math.abs(r - sr) <= 1 && Math.abs(c - sc) <= 1)) continue;
     board[r][c].mine = true;
     done++;
   }
@@ -656,7 +574,7 @@ function placeMines(sr, sc) {
 function flood(sr, sc) {
   const stk = [[sr, sc]];
   while (stk.length) {
-    const [r, c] = stk.pop();
+    const[r, c] = stk.pop();
     if (r < 0 || r >= NR || c < 0 || c >= NC) continue;
     const cell = board[r][c];
     if (cell.rev || cell.flag || cell.mine || cell.land) continue;
@@ -683,14 +601,11 @@ function drawState() {
       const x = c * SZ, y = r * SZ;
 
       if (!cell.rev) {
-        // Unrevealed — raised tactile overlay
         ctx.fillStyle = 'rgba(14, 28, 52, 0.82)';
         ctx.fillRect(x, y, SZ, SZ);
-        // Subtle highlight on top-left edges for a raised look
         ctx.fillStyle = 'rgba(40, 70, 120, 0.25)';
         ctx.fillRect(x, y, SZ, 1);
         ctx.fillRect(x, y, 1, SZ);
-        // Shadow on bottom-right
         ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
         ctx.fillRect(x, y + SZ - 1, SZ, 1);
         ctx.fillRect(x + SZ - 1, y, 1, SZ);
@@ -714,10 +629,8 @@ function drawState() {
         ctx.fillStyle = isBlast ? '#ffbbaa' : '#aa2222';
         ctx.fillText('\u2738', x + SZ/2, y + SZ/2 + 1);
       } else {
-        // Revealed safe — darker than unrevealed to show it's been cleared
         ctx.fillStyle = 'rgba(6, 16, 32, 0.88)';
         ctx.fillRect(x, y, SZ, SZ);
-        // Inset shadow to look pressed-in
         ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
         ctx.fillRect(x, y, SZ, 1);
         ctx.fillRect(x, y, 1, SZ);
@@ -749,27 +662,19 @@ function drawState() {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   HUD / STATUS — updates all instances (mobile + desktop)
+   HUD / STATUS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 function setStatus(msg, col) {
-  document.querySelectorAll('.status-sync').forEach(el => {
-    el.textContent = msg;
-    el.style.color = col || '';
-  });
+  document.querySelectorAll('.status-sync').forEach(el => { el.textContent = msg; el.style.color = col || ''; });
 }
 
 function updateHUD() {
   const rem = Math.max(0, NM - nflags);
   const mineStr = String(rem).padStart(3, '0');
   const mineCol = rem <= 0 ? '#38aa55' : '#c83030';
-  document.querySelectorAll('.mine-display').forEach(el => {
-    el.textContent = mineStr;
-    el.style.color = mineCol;
-  });
+  document.querySelectorAll('.mine-display').forEach(el => { el.textContent = mineStr; el.style.color = mineCol; });
   const timeStr = String(Math.min(sec, 999)).padStart(3, '0');
-  document.querySelectorAll('.time-display').forEach(el => {
-    el.textContent = timeStr;
-  });
+  document.querySelectorAll('.time-display').forEach(el => el.textContent = timeStr);
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -839,7 +744,7 @@ function handleFlag(r, c) {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   EVENTS
+   MOBILE & TOUCH EVENTS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 function getCellFromXY(clientX, clientY) {
   const rect   = canvas.getBoundingClientRect();
@@ -872,12 +777,12 @@ canvas.addEventListener('touchstart', e => {
   const touch = e.touches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
-
-  const [r, c] = getCellFromXY(touch.clientX, touch.clientY);
+  
+  const[r, c] = getCellFromXY(touch.clientX, touch.clientY);
   touchTimer = setTimeout(() => {
     if (!touchMoved && r >= 0 && r < NR && c >= 0 && c < NC) {
       handleFlag(r, c);
-      if (navigator.vibrate) navigator.vibrate(50);
+      if (navigator.vibrate) navigator.vibrate(50); // Tactile feedback
     }
     touchTimer = null;
   }, 400);
@@ -889,7 +794,7 @@ canvas.addEventListener('touchmove', e => {
   const touch = e.touches[0];
   const dx = Math.abs(touch.clientX - touchStartX);
   const dy = Math.abs(touch.clientY - touchStartY);
-  if (dx > 8 || dy > 8) {
+  if (dx > 8 || dy > 8) { // 8px deadzone allows for minor finger wiggling
     touchMoved = true;
     clearTimeout(touchTimer);
     touchTimer = null;
@@ -909,7 +814,7 @@ canvas.addEventListener('touchend', e => {
   }
 }, { passive: false });
 
-/* iOS audio unlock */
+/* AUDIO UNLOCK HACK FOR iOS */
 document.body.addEventListener('touchstart', unlockAudio, { once: true });
 document.body.addEventListener('click', unlockAudio, { once: true });
 function unlockAudio() {
@@ -937,14 +842,13 @@ function startNew() {
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   SOUND EFFECTS (Web Audio API — no files needed)
+   SOUND EFFECTS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 let sfxOn = true;
 let audioCtx = null;
 
 function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
   return audioCtx;
 }
 
@@ -965,8 +869,7 @@ function playClick() {
   osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.06);
   gain.gain.setValueAtTime(0.12, ctx.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-  osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + 0.08);
+  osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.08);
 }
 
 function playFlag() {
@@ -980,8 +883,7 @@ function playFlag() {
   osc.frequency.setValueAtTime(900, ctx.currentTime + 0.05);
   gain.gain.setValueAtTime(0.15, ctx.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
-  osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + 0.12);
+  osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.12);
 }
 
 function playExplosion() {
@@ -990,158 +892,94 @@ function playExplosion() {
   const bufSize = ctx.sampleRate * 0.6;
   const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
   const data = buf.getChannelData(0);
-  for (let i = 0; i < bufSize; i++) {
-    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufSize, 2);
-  }
-  const noise = ctx.createBufferSource();
-  noise.buffer = buf;
-  const filter = ctx.createBiquadFilter();
-  filter.type = 'lowpass';
+  for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufSize, 2);
+  const noise = ctx.createBufferSource(); noise.buffer = buf;
+  const filter = ctx.createBiquadFilter(); filter.type = 'lowpass';
   filter.frequency.setValueAtTime(1200, ctx.currentTime);
   filter.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.5);
-  const gain = ctx.createGain();
-  gain.gain.setValueAtTime(0.5, ctx.currentTime);
+  const gain = ctx.createGain(); gain.gain.setValueAtTime(0.5, ctx.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
   noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
-  // Sub bass thump
-  const sub = ctx.createOscillator();
-  const subGain = ctx.createGain();
-  sub.connect(subGain); subGain.connect(ctx.destination);
-  sub.type = 'sine';
+  
+  const sub = ctx.createOscillator(); const subGain = ctx.createGain();
+  sub.connect(subGain); subGain.connect(ctx.destination); sub.type = 'sine';
   sub.frequency.setValueAtTime(80, ctx.currentTime);
   sub.frequency.exponentialRampToValueAtTime(20, ctx.currentTime + 0.4);
   subGain.gain.setValueAtTime(0.4, ctx.currentTime);
   subGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-  noise.start(ctx.currentTime);
-  sub.start(ctx.currentTime);
-  sub.stop(ctx.currentTime + 0.4);
+  noise.start(ctx.currentTime); sub.start(ctx.currentTime); sub.stop(ctx.currentTime + 0.4);
 }
 
 function playWin() {
   if (!sfxOn) return;
   const ctx = getAudioCtx();
-  const notes = [523, 659, 784, 1047]; // C5 E5 G5 C6
+  const notes =[523, 659, 784, 1047]; 
   notes.forEach((freq, i) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.type = 'sine';
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination); osc.type = 'sine';
     osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
     gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.12);
     gain.gain.linearRampToValueAtTime(0.15, ctx.currentTime + i * 0.12 + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.3);
-    osc.start(ctx.currentTime + i * 0.12);
-    osc.stop(ctx.currentTime + i * 0.12 + 0.3);
+    osc.start(ctx.currentTime + i * 0.12); osc.stop(ctx.currentTime + i * 0.12 + 0.3);
   });
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ENDGAME GIF SYSTEM
-   — Add Tenor GIF URLs here. Use mp4/gif/webm links.
-   — Each entry: { url, type ('video'|'image'), caption, tenor (share page URL) }
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-const LOSE_GIFS = [
-  {
-    url: 'https://media.tenor.com/tiKt0nmALycAAAPs/donald-trump-billions.webm',
-    type: 'video',
-    caption: 'BILLIONS AND BILLIONS IN ECONOMIC DAMAGE',
-    tenor: 'https://tenor.com/view/donald-trump-billions-money-cash-plenty-gif-10135114'
-  },
-  {
-    url: 'https://media.tenor.com/6EvzqQk1xmwAAAPs/epsteinstrump-trump-epstein.webm',
-    type: 'video',
-    caption: '"SIR... IRAN HAS MINED THE STRAIT. OIL IS AT $200."',
-  },
-  {
-    url: 'https://media.tenor.com/0YorwRUn7vIAAAPs/israel-netanyahu.webm',
-    type: 'video',
-    caption: 'NETANYAHU THROWING THE FIRST MINE INTO THE STRAIT',
-  },
-  {
-    url: 'https://media.tenor.com/MxCQpXQyefQAAAPs/donald-trump-drill-baby-drill.webm',
-    type: 'video',
-    caption: 'DRILL BABY DRILL (THE OIL IS TRAPPED ON THE OTHER SIDE)',
-  },
-  {
-    url: 'https://media.tenor.com/8GURwjeqhpwAAAPs/trump-trump-epstein.webm',
-    type: 'video',
-    caption: '"I DID THAT" — OIL AT $200/BBL',
-  },
-  {
-    url: 'https://media.tenor.com/H-g1-An4PEkAAAPs/donald-trump-trump.webm',
-    type: 'video',
-    caption: 'TRUMP MAKING ROOM FOR NETANYAHU\'S NEXT REQUEST',
-  },
+const LOSE_GIFS =[
+  { url: 'https://media.tenor.com/tiKt0nmALycAAAPs/donald-trump-billions.webm', type: 'video', caption: 'BILLIONS AND BILLIONS IN ECONOMIC DAMAGE' },
+  { url: 'https://media.tenor.com/6EvzqQk1xmwAAAPs/epsteinstrump-trump-epstein.webm', type: 'video', caption: '"SIR... IRAN HAS MINED THE STRAIT. OIL IS AT $200."' },
+  { url: 'https://media.tenor.com/0YorwRUn7vIAAAPs/israel-netanyahu.webm', type: 'video', caption: 'NETANYAHU THROWING THE FIRST MINE INTO THE STRAIT' },
+  { url: 'https://media.tenor.com/MxCQpXQyefQAAAPs/donald-trump-drill-baby-drill.webm', type: 'video', caption: 'DRILL BABY DRILL (THE OIL IS TRAPPED ON THE OTHER SIDE)' },
+  { url: 'https://media.tenor.com/8GURwjeqhpwAAAPs/trump-trump-epstein.webm', type: 'video', caption: '"I DID THAT" — OIL AT $200/BBL' },
+  { url: 'https://media.tenor.com/H-g1-An4PEkAAAPs/donald-trump-trump.webm', type: 'video', caption: 'TRUMP MAKING ROOM FOR NETANYAHU\'S NEXT REQUEST' },
 ];
 
-const WIN_GIFS = [
-  {
-    url: 'https://media.tenor.com/PVaC-Ci4Dx8AAAPs/myfly-mfc.webm',
-    type: 'video',
-    caption: 'CHEAP OIL TIME. YOU SAVED THE GLOBAL ECONOMY.',
-  },
-  {
-    url: 'https://media.tenor.com/H5ox490hSEgAAAPs/merica-bald-eagle.webm',
-    type: 'video',
-    caption: 'STRAIT CLEARED. FREEDOM ISN\'T FREE BUT OIL IS $62.',
-  },
+const WIN_GIFS =[
+  { url: 'https://media.tenor.com/PVaC-Ci4Dx8AAAPs/myfly-mfc.webm', type: 'video', caption: 'CHEAP OIL TIME. YOU SAVED THE GLOBAL ECONOMY.' },
+  { url: 'https://media.tenor.com/H5ox490hSEgAAAPs/merica-bald-eagle.webm', type: 'video', caption: 'STRAIT CLEARED. FREEDOM ISN\'T FREE BUT OIL IS $62.' },
 ];
-
-let currentGif = null;
 
 function showEndGif(result) {
   const pool = result === 'lost' ? LOSE_GIFS : WIN_GIFS;
   if (pool.length === 0) return;
-
   const gif = pool[Math.floor(Math.random() * pool.length)];
-  currentGif = gif;
   const container = document.getElementById('gif-container');
-  const caption = document.getElementById('gif-caption');
-  const overlay = document.getElementById('gif-overlay');
-
   container.innerHTML = '';
+  
   if (gif.type === 'video') {
     const vid = document.createElement('video');
-    vid.src = gif.url;
-    vid.autoplay = true;
-    vid.loop = true;
-    vid.muted = true;
-    vid.playsInline = true;
-    vid.setAttribute('playsinline', '');
+    vid.src = gif.url; vid.autoplay = true; vid.loop = true; vid.muted = true;
+    vid.playsInline = true; vid.setAttribute('playsinline', '');
     container.appendChild(vid);
   } else {
-    const img = document.createElement('img');
-    img.src = gif.url;
-    container.appendChild(img);
+    const img = document.createElement('img'); img.src = gif.url; container.appendChild(img);
   }
-
+  
+  const caption = document.getElementById('gif-caption');
   caption.textContent = gif.caption;
   caption.style.color = result === 'lost' ? '#c83030' : '#38aa55';
-  overlay.classList.add('visible');
+  document.getElementById('gif-overlay').classList.add('visible');
 }
 
 function dismissGif() {
-  const overlay = document.getElementById('gif-overlay');
-  overlay.classList.remove('visible');
-  const container = document.getElementById('gif-container');
-  container.innerHTML = '';
+  document.getElementById('gif-overlay').classList.remove('visible');
+  document.getElementById('gif-container').innerHTML = '';
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    OIL PRICE TICKER ANIMATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 let oilAnim = null;
-
 function animateOilPrice(start, end, duration, color) {
   if (oilAnim) cancelAnimationFrame(oilAnim);
   const el = document.getElementById('oil-ticker');
-  el.classList.add('visible');
-  el.style.color = color;
+  el.classList.add('visible'); el.style.color = color;
   const t0 = performance.now();
-
   function tick(now) {
     const p = Math.min((now - t0) / duration, 1);
-    // Easing: ease-out cubic
     const ep = 1 - Math.pow(1 - p, 3);
     const price = start + (end - start) * ep;
     el.textContent = 'BRENT CRUDE: $' + price.toFixed(2) + ' /BBL' + (end > start ? ' \u25B2' : ' \u25BC');
@@ -1155,41 +993,33 @@ function animateOilPrice(start, end, duration, color) {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 function showShareBtn() {
   document.getElementById('share-btn').classList.add('visible');
-  const panelBtn = document.getElementById('panel-share-btn');
-  if (panelBtn) panelBtn.style.display = '';
+  if(document.getElementById('panel-share-btn')) document.getElementById('panel-share-btn').style.display = '';
 }
 
 function hideShareBtn() {
   document.getElementById('share-btn').classList.remove('visible');
-  const panelBtn = document.getElementById('panel-share-btn');
-  if (panelBtn) panelBtn.style.display = 'none';
+  if(document.getElementById('panel-share-btn')) document.getElementById('panel-share-btn').style.display = 'none';
 }
 
 function shareResult() {
-  const loseLines = [
+  const loseLines =[
     "I just blew up the Strait of Hormuz in {t}s. Oil is at $200. You're welcome, OPEC.",
     "Hit a mine in {t}s. The entire global economy just collapsed. My bad.",
     "Detonated an Iranian mine in {t} seconds flat. Tanker down. Portfolio down. Everything down.",
     "Skill issue: clicked a mine in {t}s. 20% of the world's oil supply is now on fire.",
     "{t} seconds. That's how fast I crashed the global economy. Speedrun any%.",
-    "Iran: 1, Me: 0. Lasted {t}s before sending crude to $200/bbl. Not financial advice.",
   ];
-
-  const winLines = [
+  const winLines =[
     "Cleared all 28 Iranian mines in {t}s. Oil back to $62. I just saved the global economy. You're welcome.",
     "Strait of Hormuz: CLEARED in {t}s. Resume shipping. Cancel the recession. I'm built different.",
-    "{t}s to clear 28 mines. CENTCOM wishes they had me. The Navy decommissioned their minesweepers, I didn't.",
+    "{t}s to clear 28 mines. CENTCOM wishes they had me.",
     "28 mines. {t} seconds. Zero casualties. The global economy owes me a beer.",
-    "Finished clearing the Strait in {t}s. Trump can stop tweeting now. (He won't.)",
     "I did what the entire US Navy couldn't: cleared the Strait of Hormuz in {t}s. With a mouse.",
   ];
-
   const lines = gstate === 'won' ? winLines : loseLines;
   const line = lines[Math.floor(Math.random() * lines.length)].replace('{t}', sec);
   const text = line + "\n\n$HORMUZ \uD83D\uDCA3\nhttps://hormuz.lol";
-
-  const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
-  window.open(url, '_blank', 'width=600,height=400');
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text), '_blank', 'width=600,height=400');
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1199,26 +1029,24 @@ function fitToScreen() {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const isDesktop = vw >= 640;
-  const canvasRatio = NR / NC; // 2.2
+  const canvasRatio = NR / NC; 
 
   let gameWidth;
   if (isDesktop) {
-    // On desktop, canvas height should fit viewport (minus padding)
     const availH = vh - 48;
     gameWidth = Math.floor(availH / canvasRatio);
-    // Also leave room for side panels
-    const maxFromWidth = vw - 400; // ~180px per panel + gaps
+    const maxFromWidth = vw - 400; 
     gameWidth = Math.max(180, Math.min(gameWidth, maxFromWidth, 500));
     const panelWidth = Math.max(140, Math.min((vw - gameWidth) / 2 - 20, 220));
     document.documentElement.style.setProperty('--panel-width', Math.round(panelWidth) + 'px');
   } else {
-    // On mobile, fit width with room for UI below — min 300px, scroll over squish
     const uiChrome = 160;
     const fromHeight = (vh - uiChrome) / canvasRatio;
     const fromWidth = vw - 16;
+    // Math ensures the board is never unplayably narrow (e.g. at least 300px),
+    // favoring vertical scrolling over squinting!
     gameWidth = Math.max(Math.min(vw - 16, 300), Math.min(fromHeight, fromWidth, 500));
   }
-
   document.documentElement.style.setProperty('--game-width', Math.round(gameWidth) + 'px');
 }
 
