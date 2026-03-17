@@ -483,8 +483,15 @@ nav .container {
   padding: 32px 56px;
   font-size: 12px;
   letter-spacing: 3px;
-  color: #3a3828;
+  color: var(--tan);
+  word-break: break-all;
 }
+.token-box a {
+  color: var(--tan);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.token-box a:hover { color: #fff; }
 
 /* ── FOOTER ── */
 footer {
@@ -517,6 +524,11 @@ footer .container {
   transition: color 0.2s;
 }
 .footer-links a:hover { color: var(--tan); }
+.footer-x-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 .footer-copy {
   font-size: 9px;
   color: #3a3828;
@@ -556,6 +568,9 @@ footer .container {
       <li><a href="#play">Play</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#token">Token</a></li>
+      <li><a href="https://x.com/i/communities/2034015629297266847/" target="_blank" rel="noopener" class="footer-x-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-label="X / Twitter"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a></li>
     </ul>
   </div>
 </nav>
@@ -763,8 +778,7 @@ footer .container {
 <section id="token">
   <div class="container">
     <h2>Token Information</h2>
-    <p class="token-soon">Contract address and tokenomics dropping soon.</p>
-    <div class="token-box">// CLASSIFIED // PENDING DEPLOYMENT //</div>
+    <div class="token-box"><a href="https://pump.fun/coin/DMRqf4NPg9EP6yunoquRHoR294N75jFweDWu6YK8pump" target="_blank" rel="noopener">DMRqf4NPg9EP6yunoquRHoR294N75jFweDWu6YK8pump</a></div>
   </div>
 </section>
 
@@ -775,6 +789,10 @@ footer .container {
     <ul class="footer-links">
       <li><a href="game.html">Play</a></li>
       <li><a href="#token">Token</a></li>
+      <li><a href="https://x.com/i/communities/2034015629297266847/" target="_blank" rel="noopener" class="footer-x-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-label="X / Twitter"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.912-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Community
+      </a></li>
     </ul>
     <div class="footer-copy">// MINE CLEARANCE UNIT ALPHA // STRAIT OF HORMUZ // 2026 //</div>
   </div>
