@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>HORMUZ SWEEPER</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: #040911;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 16px 8px;
+  color: #c8b888;
+}
+
+/* ── WRAPPER: flex row on desktop, column on mobile ── */
+#game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* ── SIDE PANELS (desktop only) ── */
+.side-panel {
+  display: none;
+}
+
+/* ── MOBILE CLASSIFY ── */
+.classify {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: #6a6248;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* ── CENTER COLUMN ── */
+#center-col {
+  width: 100%;
+  max-width: var(--game-width, 320px);
+}
+
+/* ── HUD (mobile) ── */
+#hud {
+  display: flex;
+  align-items: stretch;
+  background: #07101a;
+  border: 1px solid #1e2c40;
+  border-bottom: 1px solid #0a1218;
+  height: 44px;
+}
+.hud-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+.hud-box:first-child { border-right: 1px solid #1e3048; }
+.hud-box:last-child  { border-left: 1px solid #1e3048; }
+.hud-label { font-size: 7px; color: #7a7060; letter-spacing: 2px; margin-bottom: 1px; }
+.hud-val   { font-size: 20px; letter-spacing: 1px; font-weight: bold; font-variant-numeric: tabular-nums; }
+.mine-display  { color: #c83030; }
+.time-display  { color: #3080c0; }
+#hud-mid   { flex: 1; display: flex; align-items: center; justify-content: center; }
+#hud-mid span { font-size: 9px; letter-spacing: 3px; color: #8a8068; }
+
+/* ── canvas ── */
+canvas {
+  display: block;
+  cursor: crosshair;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+}
+
+/* ── status bar (mobile) ── */
+.status-text {
+  background: #05090f;
+  border: 1px solid #1e2c40;
+  border-top: none;
+  padding: 5px 10px;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #7a7868;
+  min-height: 24px;
+  text-align: center;
+  transition: color 0.4s;
+}
+
+/* ── new game button ── */
+.new-game-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: #07101a;
+  border: 1px solid #1e2c40;
+  border-top: none;
+  color: #6890a8;
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.new-game-btn:hover, .new-game-btn:active {
+  border-color: #384c60;
+  color: #90b8d0;
+  background: #0c1820;
+}
+
+/* ── footer ── */
+.footer-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: #07101a;
+  border: 1px solid #1e2c40;
+  border-top: none;
+  padding: 5px 10px;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #5a5848;
+  text-align: center;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESKTOP LAYOUT — side panels visible
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (min-width: 640px) {
+  #game-wrapper {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+  /* hide mobile-only elements */
+  #hud, #mobile-status, #mobile-btn, #mobile-footer, #mobile-classify { display: none; }
+
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: var(--panel-width, 180px);
+    background: #05090f;
+    border: 1px solid #1e2c40;
+    padding: 24px 20px;
+    gap: 20px;
+  }
+  #panel-left {
+    border-right: none;
+    align-items: flex-end;
+    text-align: right;
+  }
+  #panel-right {
+    border-left: none;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .panel-title {
+    font-size: 14px;
+    letter-spacing: 5px;
+    color: #8a8068;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .panel-classify {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #6a6248;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+  .panel-divider {
+    width: 40px;
+    height: 1px;
+    background: #1e2c40;
+  }
+  #panel-left .panel-divider { margin-left: auto; }
+  #panel-right .panel-divider { margin-right: auto; }
+  .panel-label {
+    font-size: 10px;
+    color: #7a7060;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .panel-val {
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .panel-val.mine-display { color: #c83030; }
+  .panel-val.time-display { color: #3080c0; }
+  .panel-status {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #7a7868;
+    line-height: 1.8;
+    transition: color 0.4s;
+  }
+  .panel-new-btn {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #07101a;
+    border: 1px solid #1e2c40;
+    color: #6890a8;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .panel-new-btn:hover {
+    border-color: #384c60;
+    color: #90b8d0;
+    background: #0c1820;
+  }
+  .panel-footer {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: #5a5848;
+    line-height: 1.8;
+  }
+
+  /* canvas column — no extra chrome */
+  #center-col {
+    max-width: none;
+    width: var(--game-width, 320px);
+    flex-shrink: 0;
+  }
+}
+
+/* ── small mobile ── */
+@media (max-width: 340px) {
+  html, body { padding: 8px 4px; }
+  .classify { font-size: 6px; letter-spacing: 2px; }
+  #hud-mid span { font-size: 8px; letter-spacing: 2px; }
+  .hud-val { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div id="game-wrapper">
+
+  <!-- ── LEFT PANEL (desktop) ── -->
+  <div id="panel-left" class="side-panel">
+    <div class="panel-title">HORMUZ<br>SWEEPER</div>
+    <div class="panel-divider"></div>
+    <div>
+      <div class="panel-label">MINES</div>
+      <div class="panel-val mine-display">028</div>
+    </div>
+    <div class="panel-divider"></div>
+    <div class="panel-status status-sync">
+      LEFT CLICK: REVEAL<br>
+      RIGHT CLICK: FLAG<br>
+      28 IRANIAN MINES
+    </div>
+    <div class="panel-divider"></div>
+    <div class="panel-classify">
+      // CLASSIFIED //<br>
+      MINE CLEARANCE<br>
+      UNIT ALPHA<br>
+      STRAIT OF HORMUZ<br>
+      MARCH 2026 //
+    </div>
+  </div>
+
+  <!-- ── CENTER COLUMN ── -->
+  <div id="center-col">
+    <div class="classify" id="mobile-classify">// CLASSIFIED // MINE CLEARANCE UNIT ALPHA // STRAIT OF HORMUZ // MARCH 2026 //</div>
+
+    <div id="hud">
+      <div class="hud-box">
+        <div class="hud-label">MINES</div>
+        <div class="hud-val mine-display">028</div>
+      </div>
+      <div id="hud-mid"><span>HORMUZ&nbsp;SWEEPER</span></div>
+      <div class="hud-box">
+        <div class="hud-label">TIME</div>
+        <div class="hud-val time-display">000</div>
+      </div>
+    </div>
+
+    <canvas id="c" width="320" height="704"></canvas>
+
+    <div class="status-text status-sync" id="mobile-status">
+      TAP: REVEAL &nbsp;·&nbsp; LONG PRESS: FLAG &nbsp;·&nbsp; 28 IRANIAN MINES
+    </div>
+    <button class="new-game-btn" id="mobile-btn" onclick="startNew()">[ NEW GAME ]</button>
+    <div class="footer-text" id="mobile-footer">
+      <span>MINE CLEARANCE UNIT ALPHA // STRAIT OF HORMUZ // MARCH 2026</span>
+      <span>$HORMUZ // COMING SOON TO SOLANA</span>
+    </div>
+  </div>
+
+  <!-- ── RIGHT PANEL (desktop) ── -->
+  <div id="panel-right" class="side-panel">
+    <div>
+      <div class="panel-label">TIME</div>
+      <div class="panel-val time-display">000</div>
+    </div>
+    <div class="panel-divider"></div>
+    <button class="panel-new-btn" onclick="startNew()">[ NEW GAME ]</button>
+    <div class="panel-divider"></div>
+    <div class="panel-footer">
+      $HORMUZ<br>
+      COMING SOON<br>
+      TO SOLANA
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONSTANTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const SZ = 32;
+const NR = 22;
+const NC = 10;
+const NM = 28;
+
+const LAND = [
+  [1,1,1,1,1,1,1,1,1,1], // row 0   Iran interior
+  [1,1,1,1,1,1,1,1,1,1], // row 1   Iran interior
+  [1,1,1,1,1,1,1,1,1,1], // row 2   Iran coast
+  [1,1,0,0,0,0,0,1,1,1], // row 3   Iran coast opens
+  [1,0,0,0,0,0,0,0,1,1], // row 4   Wider opening
+  [0,0,0,0,0,0,0,0,0,1], // row 5   Strait widens
+  [0,0,0,0,0,0,0,0,0,0], // row 6   Open water
+  [0,0,0,0,0,0,0,0,0,0], // row 7   Open water — shipping lane
+  [0,0,0,0,0,0,0,0,0,0], // row 8   Open water
+  [0,0,0,0,0,0,0,0,0,0], // row 9   Open water
+  [0,0,0,0,0,0,0,0,0,0], // row 10  Open water
+  [0,0,0,0,0,0,0,1,0,0], // row 11  Qeshm channel
+  [0,0,0,0,0,0,1,1,1,0], // row 12  Qeshm Island
+  [0,0,0,0,0,0,1,1,0,0], // row 13  Qeshm south
+  [0,0,0,0,0,0,0,0,0,0], // row 14  Open water
+  [0,0,0,0,0,0,0,0,0,0], // row 15  Open water
+  [0,0,0,0,1,1,0,0,0,0], // row 16  Musandam tip
+  [0,0,1,1,1,1,1,0,0,0], // row 17  Musandam body
+  [1,1,1,1,1,1,1,0,0,0], // row 18  Oman / UAE coast
+  [1,1,1,1,1,1,1,1,0,0], // row 19  Oman coast
+  [1,1,1,1,1,1,1,1,1,1], // row 20  Oman interior
+  [1,1,1,1,1,1,1,1,1,1], // row 21  Oman interior
+];
+
+const NCOLORS = ['','#5aabff','#5dd888','#ff8855','#cc88ee','#ff99bb','#55e0e0','#e0e0e0','#aaaaaa'];
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CANVAS SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+
+const mapCvs = document.createElement('canvas');
+mapCvs.width  = NC * SZ;
+mapCvs.height = NR * SZ;
+const mctx = mapCvs.getContext('2d');
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MAP RENDERING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function drawMapOnce() {
+  const W = NC * SZ, H = NR * SZ;
+
+  mctx.fillStyle = '#0c2240';
+  mctx.fillRect(0, 0, W, H);
+
+  for (let r = 0; r < NR; r++) {
+    for (let c = 0; c < NC; c++) {
+      if (LAND[r][c]) continue;
+      const v = ((r * 13 + c * 7) % 9) * 2;
+      mctx.fillStyle = `rgb(${18+v},${38+v},${72+v*2})`;
+      mctx.fillRect(c*SZ, r*SZ, SZ, SZ);
+    }
+  }
+
+  for (let r = 0; r < NR; r++) {
+    for (let c = 0; c < NC; c++) {
+      if (!LAND[r][c]) continue;
+      const v   = ((r * 11 + c * 7) % 13) * 4;
+      const dim = r >= NR/2 ? 12 : 0;
+      mctx.fillStyle = `rgb(${182+v-dim},${145+v-dim},${64+Math.floor(v*0.4)-dim})`;
+      mctx.fillRect(c*SZ, r*SZ, SZ, SZ);
+      if ((r * 3 + c * 5) % 7 < 2) {
+        mctx.fillStyle = 'rgba(0,0,0,0.09)';
+        mctx.fillRect(c*SZ + SZ*0.28, r*SZ + SZ*0.28, SZ*0.48, SZ*0.48);
+      }
+      if ((r * 5 + c * 3) % 9 < 3) {
+        mctx.fillStyle = 'rgba(255,220,140,0.06)';
+        mctx.fillRect(c*SZ, r*SZ, SZ*0.4, SZ*0.4);
+      }
+    }
+  }
+
+  mctx.lineJoin = 'round';
+  for (let r = 0; r < NR; r++) {
+    for (let c = 0; c < NC; c++) {
+      if (!LAND[r][c]) continue;
+      const x = c*SZ, y = r*SZ;
+      const neighbors = [[r-1,c,'T'], [r+1,c,'B'], [r,c-1,'L'], [r,c+1,'R']];
+      for (const [nr, nc2, edge] of neighbors) {
+        if (nr < 0 || nr >= NR || nc2 < 0 || nc2 >= NC) continue;
+        if (LAND[nr][nc2]) continue;
+        mctx.beginPath();
+        mctx.strokeStyle = 'rgba(215, 178, 100, 0.9)';
+        mctx.lineWidth = 1.8;
+        if (edge === 'T') { mctx.moveTo(x, y); mctx.lineTo(x+SZ, y); }
+        if (edge === 'B') { mctx.moveTo(x, y+SZ); mctx.lineTo(x+SZ, y+SZ); }
+        if (edge === 'L') { mctx.moveTo(x, y); mctx.lineTo(x, y+SZ); }
+        if (edge === 'R') { mctx.moveTo(x+SZ, y); mctx.lineTo(x+SZ, y+SZ); }
+        mctx.stroke();
+        mctx.beginPath();
+        mctx.strokeStyle = 'rgba(240, 200, 120, 0.18)';
+        mctx.lineWidth = 3;
+        if (edge === 'T') { mctx.moveTo(x, y+2); mctx.lineTo(x+SZ, y+2); }
+        if (edge === 'B') { mctx.moveTo(x, y+SZ-2); mctx.lineTo(x+SZ, y+SZ-2); }
+        if (edge === 'L') { mctx.moveTo(x+2, y); mctx.lineTo(x+2, y+SZ); }
+        if (edge === 'R') { mctx.moveTo(x+SZ-2, y); mctx.lineTo(x+SZ-2, y+SZ); }
+        mctx.stroke();
+      }
+    }
+  }
+
+  mctx.strokeStyle = 'rgba(30, 60, 110, 0.5)';
+  mctx.lineWidth = 0.7;
+  for (let r = 0; r <= NR; r++) {
+    mctx.beginPath(); mctx.moveTo(0, r*SZ); mctx.lineTo(W, r*SZ); mctx.stroke();
+  }
+  for (let c = 0; c <= NC; c++) {
+    mctx.beginPath(); mctx.moveTo(c*SZ, 0); mctx.lineTo(c*SZ, H); mctx.stroke();
+  }
+
+  mctx.save();
+  mctx.setLineDash([3, 11]);
+  mctx.strokeStyle = 'rgba(30, 70, 130, 0.3)';
+  mctx.lineWidth = 0.8;
+  mctx.beginPath();
+  mctx.moveTo(20, 240);
+  mctx.bezierCurveTo(100, 230, 200, 245, 300, 238);
+  mctx.stroke();
+  mctx.restore();
+
+  mctx.save();
+  mctx.setLineDash([7, 8]);
+  mctx.strokeStyle = 'rgba(50, 110, 200, 0.28)';
+  mctx.lineWidth = 1;
+  mctx.beginPath();
+  mctx.moveTo(18, 7*SZ + SZ/2); mctx.lineTo(302, 7*SZ + SZ/2);
+  mctx.stroke();
+  mctx.restore();
+
+  mctx.textAlign = 'center';
+  mctx.textBaseline = 'middle';
+
+  mctx.font = 'bold 10px Courier New';
+  mctx.fillStyle = 'rgba(170, 132, 55, 0.85)';
+  mctx.fillText('I  R  A  N', W/2, 20);
+  mctx.font = '7px Courier New';
+  mctx.fillStyle = 'rgba(140, 108, 45, 0.6)';
+  mctx.fillText('BANDAR ABBAS  \u25BE', W/2, 32);
+
+  mctx.font = 'bold 8px Courier New';
+  mctx.fillStyle = 'rgba(155, 120, 50, 0.78)';
+  mctx.fillText('O M A N', W/2, H - 22);
+
+  mctx.font = 'bold 7px Courier New';
+  mctx.fillStyle = 'rgba(148, 114, 48, 0.75)';
+  mctx.fillText('MUSANDAM', 5*SZ, 17*SZ + SZ/2);
+
+  mctx.font = '8px Courier New';
+  mctx.fillStyle = 'rgba(22, 68, 138, 0.48)';
+  mctx.fillText('PERSIAN', 2*SZ, 6*SZ + 6);
+  mctx.fillText('GULF', 2*SZ, 6*SZ + 18);
+
+  mctx.fillStyle = 'rgba(22, 68, 138, 0.42)';
+  mctx.fillText('GULF OF', 8*SZ, 14*SZ + 8);
+  mctx.fillText('OMAN', 8*SZ, 14*SZ + 20);
+
+  mctx.font = '6px Courier New';
+  mctx.fillStyle = 'rgba(148, 112, 48, 0.78)';
+  mctx.fillText('QESHM', 7*SZ + SZ/2, 12*SZ + SZ/2);
+
+  mctx.font = '7px Courier New';
+  mctx.fillStyle = 'rgba(32, 85, 160, 0.22)';
+  mctx.fillText('\u2014 SHIPPING LANE \u2014', W/2, 7*SZ + SZ/2 - 8);
+
+  mctx.font = 'bold 7px Courier New';
+  mctx.fillStyle = 'rgba(30, 90, 175, 0.3)';
+  mctx.fillText('STRAIT  OF  HORMUZ', W/2, 9*SZ + SZ/2);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GAME STATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+let board, gstate, nflags, sec, tick, blastRC;
+
+function mkBoard() {
+  return Array.from({length: NR}, (_, r) =>
+    Array.from({length: NC}, (_, c) => ({
+      mine: false, rev: false, flag: false, adj: 0,
+      land: !!LAND[r][c]
+    }))
+  );
+}
+
+function placeMines(sr, sc) {
+  const pool = [];
+  for (let r = 0; r < NR; r++)
+    for (let c = 0; c < NC; c++)
+      if (!LAND[r][c]) pool.push([r, c]);
+
+  let done = 0;
+  while (done < NM) {
+    const [r, c] = pool[Math.floor(Math.random() * pool.length)];
+    if (board[r][c].mine) continue;
+    if (Math.abs(r - sr) <= 1 && Math.abs(c - sc) <= 1) continue;
+    board[r][c].mine = true;
+    done++;
+  }
+
+  for (let r = 0; r < NR; r++)
+    for (let c = 0; c < NC; c++) {
+      if (board[r][c].mine || board[r][c].land) continue;
+      let n = 0;
+      for (let dr = -1; dr <= 1; dr++)
+        for (let dc = -1; dc <= 1; dc++) {
+          const nr = r + dr, nc = c + dc;
+          if (nr >= 0 && nr < NR && nc >= 0 && nc < NC && board[nr][nc].mine) n++;
+        }
+      board[r][c].adj = n;
+    }
+}
+
+function flood(sr, sc) {
+  const stk = [[sr, sc]];
+  while (stk.length) {
+    const [r, c] = stk.pop();
+    if (r < 0 || r >= NR || c < 0 || c >= NC) continue;
+    const cell = board[r][c];
+    if (cell.rev || cell.flag || cell.mine || cell.land) continue;
+    cell.rev = true;
+    if (cell.adj === 0)
+      for (let dr = -1; dr <= 1; dr++)
+        for (let dc = -1; dc <= 1; dc++)
+          if (dr || dc) stk.push([r + dr, c + dc]);
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GAME RENDERING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function drawState() {
+  ctx.drawImage(mapCvs, 0, 0);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  for (let r = 0; r < NR; r++) {
+    for (let c = 0; c < NC; c++) {
+      const cell = board[r][c];
+      if (cell.land) continue;
+      const x = c * SZ, y = r * SZ;
+
+      if (!cell.rev) {
+        // Unrevealed — raised tactile overlay
+        ctx.fillStyle = 'rgba(14, 28, 52, 0.82)';
+        ctx.fillRect(x, y, SZ, SZ);
+        // Subtle highlight on top-left edges for a raised look
+        ctx.fillStyle = 'rgba(40, 70, 120, 0.25)';
+        ctx.fillRect(x, y, SZ, 1);
+        ctx.fillRect(x, y, 1, SZ);
+        // Shadow on bottom-right
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(x, y + SZ - 1, SZ, 1);
+        ctx.fillRect(x + SZ - 1, y, 1, SZ);
+        if (cell.flag) {
+          ctx.font = '14px sans-serif';
+          ctx.fillStyle = '#d03030';
+          ctx.fillText('\u2691', x + SZ/2, y + SZ/2 + 1);
+        }
+      } else if (cell.mine) {
+        const isBlast = blastRC && blastRC[0] === r && blastRC[1] === c;
+        ctx.fillStyle = isBlast ? 'rgba(180, 16, 16, 0.96)' : 'rgba(55, 4, 4, 0.9)';
+        ctx.fillRect(x, y, SZ, SZ);
+        if (isBlast) {
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(255, 120, 60, 0.5)';
+          ctx.lineWidth = 1.5;
+          ctx.arc(x + SZ/2, y + SZ/2, SZ/2 - 2, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.font = '14px sans-serif';
+        ctx.fillStyle = isBlast ? '#ffbbaa' : '#aa2222';
+        ctx.fillText('\u2738', x + SZ/2, y + SZ/2 + 1);
+      } else {
+        // Revealed safe — darker than unrevealed to show it's been cleared
+        ctx.fillStyle = 'rgba(6, 16, 32, 0.88)';
+        ctx.fillRect(x, y, SZ, SZ);
+        // Inset shadow to look pressed-in
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.fillRect(x, y, SZ, 1);
+        ctx.fillRect(x, y, 1, SZ);
+        if (cell.adj > 0) {
+          ctx.font = 'bold 13px Courier New';
+          ctx.fillStyle = NCOLORS[cell.adj];
+          ctx.fillText(cell.adj, x + SZ/2, y + SZ/2 + 1);
+        }
+      }
+    }
+  }
+
+  const W = NC * SZ;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = '8px Courier New';
+  ctx.fillStyle = 'rgba(28, 80, 158, 0.45)';
+  ctx.fillText('PERSIAN', 2*SZ, 6*SZ + 6);
+  ctx.fillText('GULF', 2*SZ, 6*SZ + 18);
+  ctx.fillStyle = 'rgba(28, 80, 158, 0.40)';
+  ctx.fillText('GULF OF', 8*SZ, 14*SZ + 8);
+  ctx.fillText('OMAN', 8*SZ, 14*SZ + 20);
+  ctx.font = '7px Courier New';
+  ctx.fillStyle = 'rgba(28, 82, 162, 0.22)';
+  ctx.fillText('\u2014 SHIPPING LANE \u2014', W/2, 7*SZ + SZ/2 - 8);
+  ctx.font = 'bold 7px Courier New';
+  ctx.fillStyle = 'rgba(30, 92, 178, 0.28)';
+  ctx.fillText('STRAIT  OF  HORMUZ', W/2, 9*SZ + SZ/2);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HUD / STATUS — updates all instances (mobile + desktop)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function setStatus(msg, col) {
+  document.querySelectorAll('.status-sync').forEach(el => {
+    el.textContent = msg;
+    el.style.color = col || '';
+  });
+}
+
+function updateHUD() {
+  const rem = Math.max(0, NM - nflags);
+  const mineStr = String(rem).padStart(3, '0');
+  const mineCol = rem <= 0 ? '#38aa55' : '#c83030';
+  document.querySelectorAll('.mine-display').forEach(el => {
+    el.textContent = mineStr;
+    el.style.color = mineCol;
+  });
+  const timeStr = String(Math.min(sec, 999)).padStart(3, '0');
+  document.querySelectorAll('.time-display').forEach(el => {
+    el.textContent = timeStr;
+  });
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GAME LOGIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function handleClick(r, c) {
+  if (gstate === 'won' || gstate === 'lost') return;
+  const cell = board[r][c];
+  if (cell.land || cell.rev || cell.flag) return;
+
+  if (gstate === 'idle') {
+    placeMines(r, c);
+    gstate = 'playing';
+    tick = setInterval(() => { sec++; updateHUD(); }, 1000);
+  }
+
+  if (cell.mine) {
+    for (let rr = 0; rr < NR; rr++)
+      for (let cc = 0; cc < NC; cc++)
+        if (board[rr][cc].mine) board[rr][cc].rev = true;
+    blastRC = [r, c];
+    gstate = 'lost';
+    clearInterval(tick);
+    drawState();
+    setStatus('\u26A0 TANKER SUNK \u2014 OIL $200/BBL \u2014 STRAIT CLOSED \u26A0', '#b02828');
+    updateHUD();
+    return;
+  }
+
+  flood(r, c);
+  drawState();
+
+  let won = true;
+  outer: for (let rr = 0; rr < NR; rr++)
+    for (let cc = 0; cc < NC; cc++) {
+      const cell2 = board[rr][cc];
+      if (!cell2.land && !cell2.mine && !cell2.rev) { won = false; break outer; }
+    }
+
+  if (won) {
+    gstate = 'won';
+    clearInterval(tick);
+    setStatus('\u2713 STRAIT CLEARED \u2014 ALL MINES REMOVED \u2014 $62/BBL \u2713', '#38aa55');
+  }
+
+  updateHUD();
+}
+
+function handleFlag(r, c) {
+  if (gstate === 'won' || gstate === 'lost') return;
+  const cell = board[r][c];
+  if (cell.land || cell.rev) return;
+  cell.flag = !cell.flag;
+  nflags += cell.flag ? 1 : -1;
+  drawState();
+  updateHUD();
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EVENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function getCellFromXY(clientX, clientY) {
+  const rect   = canvas.getBoundingClientRect();
+  const scaleX = canvas.width  / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const c = Math.floor((clientX - rect.left) * scaleX / SZ);
+  const r = Math.floor((clientY - rect.top)  * scaleY / SZ);
+  return [r, c];
+}
+
+canvas.addEventListener('click', e => {
+  const [r, c] = getCellFromXY(e.clientX, e.clientY);
+  if (r >= 0 && r < NR && c >= 0 && c < NC) handleClick(r, c);
+});
+
+canvas.addEventListener('contextmenu', e => {
+  e.preventDefault();
+  const [r, c] = getCellFromXY(e.clientX, e.clientY);
+  if (r >= 0 && r < NR && c >= 0 && c < NC) handleFlag(r, c);
+});
+
+let touchTimer = null;
+let touchMoved = false;
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  touchMoved = false;
+  const touch = e.touches[0];
+  const [r, c] = getCellFromXY(touch.clientX, touch.clientY);
+  touchTimer = setTimeout(() => {
+    if (r >= 0 && r < NR && c >= 0 && c < NC) handleFlag(r, c);
+    touchTimer = null;
+  }, 400);
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  touchMoved = true;
+  if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; }
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault();
+  if (touchTimer && !touchMoved) {
+    clearTimeout(touchTimer);
+    touchTimer = null;
+    const touch = e.changedTouches[0];
+    const [r, c] = getCellFromXY(touch.clientX, touch.clientY);
+    if (r >= 0 && r < NR && c >= 0 && c < NC) handleClick(r, c);
+  }
+}, { passive: false });
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   INIT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function startNew() {
+  clearInterval(tick);
+  board   = mkBoard();
+  gstate  = 'idle';
+  nflags  = 0;
+  sec     = 0;
+  blastRC = null;
+  drawState();
+  setStatus('LEFT CLICK: REVEAL  \u00B7  RIGHT CLICK: FLAG  \u00B7  28 IRANIAN MINES');
+  updateHUD();
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE SIZING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function fitToScreen() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const isDesktop = vw >= 640;
+  const canvasRatio = NR / NC; // 2.2
+
+  let gameWidth;
+  if (isDesktop) {
+    // On desktop, canvas height should fit viewport (minus padding)
+    const availH = vh - 48;
+    gameWidth = Math.floor(availH / canvasRatio);
+    // Also leave room for side panels
+    const maxFromWidth = vw - 400; // ~180px per panel + gaps
+    gameWidth = Math.max(180, Math.min(gameWidth, maxFromWidth, 500));
+    const panelWidth = Math.max(140, Math.min((vw - gameWidth) / 2 - 20, 220));
+    document.documentElement.style.setProperty('--panel-width', Math.round(panelWidth) + 'px');
+  } else {
+    // On mobile, fit width with room for UI below
+    const uiChrome = 160;
+    const fromHeight = (vh - uiChrome) / canvasRatio;
+    const fromWidth = vw - 20;
+    gameWidth = Math.max(200, Math.min(fromHeight, fromWidth, 500));
+  }
+
+  document.documentElement.style.setProperty('--game-width', Math.round(gameWidth) + 'px');
+}
+
+fitToScreen();
+window.addEventListener('resize', fitToScreen);
+
+drawMapOnce();
+startNew();
+</script>
+</body>
+</html>

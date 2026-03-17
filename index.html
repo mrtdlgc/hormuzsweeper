@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$HORMUZ — The Strait Plays Back</title>
+<meta name="description" content="$HORMUZ on Solana. 28 mines. One strait. The world's oil supply hangs in the balance. Play the game. Hold the coin.">
+<meta property="og:title" content="$HORMUZ — The Strait Plays Back">
+<meta property="og:description" content="28 Iranian mines in the Strait of Hormuz. Clear them or watch oil hit $200. A memecoin forged in geopolitical chaos.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --tan: #c8b888;
+  --tan-dim: #8a7d58;
+  --navy: #040911;
+  --panel: #05090f;
+  --border: #1e2c40;
+  --blue: #3080c0;
+  --red: #c83030;
+  --green: #38aa55;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--navy);
+  color: var(--tan);
+  font-family: 'Courier New', Courier, monospace;
+  overflow-x: hidden;
+}
+
+/* ── UTILITY ── */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  padding: 80px 0;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(4, 9, 17, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.nav-logo {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: var(--tan);
+}
+.nav-logo span { color: var(--red); }
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--tan-dim);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--tan); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 56px;
+  position: relative;
+  overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 50% 60%, rgba(20, 50, 100, 0.15), transparent),
+    radial-gradient(ellipse 300px 300px at 30% 40%, rgba(200, 48, 48, 0.04), transparent);
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  z-index: 1;
+}
+.hero-classify {
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--tan-dim);
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+.hero-title {
+  font-size: clamp(48px, 10vw, 96px);
+  font-weight: bold;
+  letter-spacing: 8px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+.hero-title span {
+  color: var(--red);
+}
+.hero-sub {
+  font-size: clamp(14px, 2.5vw, 20px);
+  letter-spacing: 3px;
+  color: var(--tan-dim);
+  margin-bottom: 48px;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-val {
+  font-size: 36px;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+.hero-stat-val.red { color: var(--red); }
+.hero-stat-val.blue { color: var(--blue); }
+.hero-stat-val.green { color: var(--green); }
+.hero-stat-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--tan-dim);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+.hero-cta {
+  display: inline-flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn {
+  display: inline-block;
+  padding: 16px 40px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+}
+.btn-primary {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #e03838;
+  border-color: #e03838;
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--tan);
+}
+.btn-secondary:hover {
+  background: rgba(200, 184, 136, 0.06);
+  border-color: var(--tan-dim);
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #2a2820;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* ── NARRATIVE ── */
+#narrative {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.narrative-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.narrative-text h2 {
+  font-size: 24px;
+  letter-spacing: 4px;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+.narrative-text h2 span { color: var(--red); }
+.narrative-text p {
+  font-size: 13px;
+  line-height: 2;
+  color: #9a9480;
+  margin-bottom: 16px;
+}
+.narrative-text .date-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--red);
+  margin-bottom: 20px;
+}
+.narrative-visual {
+  position: relative;
+  background: var(--navy);
+  border: 1px solid var(--border);
+  padding: 32px;
+}
+.ticker-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(30, 44, 64, 0.5);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+.ticker-line:last-child { border-bottom: none; }
+.ticker-label { color: var(--tan-dim); }
+.ticker-val { font-weight: bold; font-variant-numeric: tabular-nums; }
+.ticker-val.up { color: var(--red); }
+.ticker-val.down { color: var(--green); }
+.ticker-val.neutral { color: var(--blue); }
+
+/* ── PLAY SECTION ── */
+#play {
+  text-align: center;
+}
+#play h2 {
+  font-size: 28px;
+  letter-spacing: 5px;
+  margin-bottom: 12px;
+}
+#play .section-sub {
+  font-size: 12px;
+  color: var(--tan-dim);
+  letter-spacing: 2px;
+  margin-bottom: 48px;
+}
+.game-frame-wrapper {
+  position: relative;
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+.game-frame-wrapper iframe {
+  width: 100%;
+  aspect-ratio: 10 / 24;
+  border: none;
+  display: block;
+}
+.game-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--tan-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  transition: color 0.2s;
+}
+.game-link:hover { color: var(--tan); }
+
+/* ── HOW IT WORKS ── */
+#how {
+  border-top: 1px solid var(--border);
+  background: var(--panel);
+}
+#how h2 {
+  font-size: 24px;
+  letter-spacing: 5px;
+  text-align: center;
+  margin-bottom: 56px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.step {
+  border: 1px solid var(--border);
+  padding: 32px 24px;
+  background: var(--navy);
+  text-align: center;
+}
+.step-num {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.step h3 {
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.step p {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #9a9480;
+}
+
+/* ── TOKEN (placeholder) ── */
+#token {
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+#token h2 {
+  font-size: 24px;
+  letter-spacing: 5px;
+  margin-bottom: 16px;
+}
+.token-soon {
+  font-size: 13px;
+  color: var(--tan-dim);
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+}
+.token-box {
+  display: inline-block;
+  border: 1px dashed var(--border);
+  padding: 32px 56px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: #3a3828;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  text-align: center;
+}
+footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.footer-logo {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 4px;
+}
+.footer-logo span { color: var(--red); }
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.footer-links a {
+  color: var(--tan-dim);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--tan); }
+.footer-copy {
+  font-size: 9px;
+  color: #3a3828;
+  letter-spacing: 2px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  section { padding: 56px 0; }
+  .narrative-grid { grid-template-columns: 1fr; gap: 32px; }
+  .steps { grid-template-columns: 1fr; }
+  .hero-stats { gap: 32px; }
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 9px; letter-spacing: 1px; }
+  .game-frame-wrapper { padding: 12px; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  .hero-classify { font-size: 8px; letter-spacing: 3px; }
+  .btn { padding: 14px 28px; font-size: 11px; }
+  .hero-stats { gap: 24px; }
+  .hero-stat-val { font-size: 28px; }
+  .nav-links { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="container">
+    <div class="nav-logo"><span>$</span>HORMUZ</div>
+    <ul class="nav-links">
+      <li><a href="#narrative">Intel</a></li>
+      <li><a href="#play">Play</a></li>
+      <li><a href="#how">How</a></li>
+      <li><a href="#token">Token</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-classify">// classified // strait of hormuz // march 2026 //</div>
+    <h1 class="hero-title"><span>$</span>HORMUZ</h1>
+    <p class="hero-sub">The Strait Plays Back</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val red">28</div>
+        <div class="hero-stat-label">Iranian Mines</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val blue">21nm</div>
+        <div class="hero-stat-label">Strait Width</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val green">$62</div>
+        <div class="hero-stat-label">Oil If You Win</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#play" class="btn btn-primary">Play Now</a>
+      <a href="#token" class="btn btn-secondary">Token Info</a>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ── NARRATIVE ── -->
+<section id="narrative">
+  <div class="container">
+    <div class="narrative-grid">
+      <div class="narrative-text">
+        <div class="date-tag">MARCH 2026 // SITUATION REPORT</div>
+        <h2>Iran just mined the <span>most important</span> chokepoint on Earth</h2>
+        <p>
+          21 nautical miles wide. 20% of the world's oil passes through it daily.
+          One closure sends crude to $200/barrel and the global economy into freefall.
+        </p>
+        <p>
+          28 naval mines now sit beneath the surface of the Strait of Hormuz.
+          CENTCOM has deployed Mine Clearance Unit Alpha.
+          You are the operator.
+        </p>
+        <p>
+          Clear the strait. Restore the flow. Or watch it all burn.
+        </p>
+      </div>
+      <div class="narrative-visual">
+        <div class="ticker-line">
+          <span class="ticker-label">BRENT CRUDE</span>
+          <span class="ticker-val up">$187.40 +42%</span>
+        </div>
+        <div class="ticker-line">
+          <span class="ticker-label">SHIPPING INSURANCE</span>
+          <span class="ticker-val up">SUSPENDED</span>
+        </div>
+        <div class="ticker-line">
+          <span class="ticker-label">STRAIT STATUS</span>
+          <span class="ticker-val up">CLOSED</span>
+        </div>
+        <div class="ticker-line">
+          <span class="ticker-label">MINES DETECTED</span>
+          <span class="ticker-val neutral">28</span>
+        </div>
+        <div class="ticker-line">
+          <span class="ticker-label">MINES CLEARED</span>
+          <span class="ticker-val down">000</span>
+        </div>
+        <div class="ticker-line">
+          <span class="ticker-label">TANKERS WAITING</span>
+          <span class="ticker-val neutral">147</span>
+        </div>
+        <div class="ticker-line">
+          <span class="ticker-label">$HORMUZ</span>
+          <span class="ticker-val up">LOADING...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PLAY ── -->
+<section id="play">
+  <div class="container">
+    <h2>Clear the Strait</h2>
+    <p class="section-sub">Left click to reveal. Right click to flag. Don't hit a mine.</p>
+    <div class="game-frame-wrapper">
+      <iframe src="game.html" title="Hormuz Sweeper" loading="lazy"></iframe>
+    </div>
+    <a href="game.html" target="_blank" class="game-link">Open fullscreen &rarr;</a>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how">
+  <div class="container">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Play the Game</h3>
+        <p>Navigate the Strait of Hormuz. Reveal water cells, flag mines. Clear all 28 without detonating one.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Hold $HORMUZ</h3>
+        <p>A memecoin born from the most dangerous chokepoint on the planet. Details dropping soon.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Watch the Strait</h3>
+        <p>As geopolitics heats up, so does $HORMUZ. The narrative writes itself. You just have to be early.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TOKEN ── -->
+<section id="token">
+  <div class="container">
+    <h2>Token Information</h2>
+    <p class="token-soon">Contract address and tokenomics dropping soon.</p>
+    <div class="token-box">// CLASSIFIED // PENDING DEPLOYMENT //</div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-logo"><span>$</span>HORMUZ</div>
+    <ul class="footer-links">
+      <li><a href="#play">Play</a></li>
+      <li><a href="#token">Token</a></li>
+    </ul>
+    <div class="footer-copy">// MINE CLEARANCE UNIT ALPHA // STRAIT OF HORMUZ // 2026 //</div>
+  </div>
+</footer>
+
+</body>
+</html>
