@@ -816,7 +816,7 @@ async function fetchCryptoData() {
 
 async function fetchFearGreed() {
   try {
-    const res = await fetch('https://api.alternative.me/fnd/v1/fear-greed-index/');
+    const res = await fetch('/api/fear-greed');
     const data = await res.json();
     const value = data.data[0].value;
     const label = data.data[0].value_classification;
