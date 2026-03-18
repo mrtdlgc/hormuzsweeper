@@ -79,6 +79,8 @@ html, body {
 .mine-display  { color: #c83030; }
 .time-display  { color: #3080c0; }
 #hud-mid   { flex: 1; display: flex; align-items: center; justify-content: center; }
+#hud-mid a { display: flex; flex-direction: column; align-items: center; text-decoration: none; gap: 1px; }
+#hud-mid .hud-back { font-size: 7px; letter-spacing: 2px; color: #4a6878; }
 #hud-mid span { font-size: 9px; letter-spacing: 3px; color: #8a8068; }
 
 /* ── canvas ── */
@@ -370,7 +372,10 @@ canvas {
 
   <!-- ── LEFT PANEL (desktop) ── -->
   <div id="panel-left" class="side-panel">
-    <a href="/" style="text-decoration:none"><div class="panel-title">HORMUZ<br>SWEEPER</div></a>
+    <a href="/" style="text-decoration:none; display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+      <div style="font-size:8px; letter-spacing:2px; color:#4a6878;">← HOME</div>
+      <div class="panel-title">HORMUZ<br>SWEEPER</div>
+    </a>
     <div class="panel-divider"></div>
     <div>
       <div class="panel-label">MINES</div>
@@ -401,7 +406,7 @@ canvas {
         <div class="hud-label">MINES</div>
         <div class="hud-val mine-display">028</div>
       </div>
-      <div id="hud-mid"><a href="/" style="text-decoration:none"><span>HORMUZ&nbsp;SWEEPER</span></a></div>
+      <div id="hud-mid"><a href="/"><div class="hud-back">← HOME</div><span>HORMUZ&nbsp;SWEEPER</span></a></div>
       <div class="hud-box">
         <div class="hud-label">TIME</div>
         <div class="hud-val time-display">000</div>
